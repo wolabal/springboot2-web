@@ -1,0 +1,37 @@
+
+buildscript{
+    ext{
+        springBootVersion = '2.1.7.RELEASE'
+    }
+    repositories {
+        // Maven Repository
+        mavenCentral()
+        // bintray닷컴이라는 회사에서 제공하는 Maven Repository
+        jcenter()
+    }
+    dependencies{
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+// Gradle로 적용된 플로그인
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'  // springboot 의존성관리 플러그인
+
+group 'com.wolabal.book'
+version '1.0-SNAPSHOT'
+
+// Java 호환 버전으로 1.8
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter-web')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}
