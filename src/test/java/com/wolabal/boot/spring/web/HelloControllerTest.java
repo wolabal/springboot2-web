@@ -1,5 +1,6 @@
 package com.wolabal.boot.spring.web;
 
+import com.wolabal.boot.spring.web.Dto.HelloDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,8 +8,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -26,5 +29,19 @@ public class HelloControllerTest {
         mvc.perform(get("/hello")) //MockMvc를 통해 '/hello' 주소로 HTTP GET 요청을 함
                 .andExpect(status().isOk())  // mvc.perform의 결과 검증  Http status 가 200 인지 여부 확인
                 .andExpect(content().string(hello)); // mvc.perform 의 결과가  "hello"인지 여부
+    }
+
+    @Test
+    public void helloDto가_리턴된다()  throws Exception{
+        String name = "test";
+        int amount = 100 ;
+
+        mvc.perform(get("/hello/dto")
+                            .param("name", name)
+                            .param("amount", String.valueOf(amount)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name", is(name)))
+                .andExpect(jsonPath("$.amount", is(amount)));
+
     }
 }
